@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="UTF-8">
+	  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>title</title>
+    <style>
+    div.row > div {
+        border-width:1px;
+        border-style:solid;
+        border-color:#cccccc;
+    }
+    p.head {
+        font-size:30px
+    }
+    #ill{
+         border-color:white;
+    }
+    #illtwo{
+         border-color:white;
+    }
+	.ghg {
+		border-color:transparent;
+			
+	}
+
+	
+    </style>
+
+    </head>
+    <body>
+	
+	    <div class="container">
+		    <div class="row">
+                <div class="col-10 col-sm-6 bg-success text-white">
+                    <div class="text-center"> 
+                        <p class="head">Temperature</p>
+                    </div>
+                </div>
+
+                <div class="col-10 col-sm-6 bg-success text-white">
+                    <div class="text-center"> 
+                        <p class="head">Result</p>
+                    </div>
+                </div>
+            </div><br>
+            <div class="row">
+			   <input type="number" class = "col-3 col-sm-4 input-group-append form-control" id="numba" placeholder="" value="66"/>
+                <div class="col-2" id="ill">
+                    <div class="input-group-append">
+				<div class="col-12 btn-group">
+						<select class="form-control bg-info text-white"  id="startemp">
+						  <option value="Fahreneit">Fahreneit</option>
+						  <option value="Celsius">Celsius</option>
+						</select>	
+				</div>
+			  </div>
+                </div>
+				<input type="number" class="col-3 col-sm-4 bg-light form-control" placeholder="" value="18.89" disabled id="out" class="output">
+                <div class="col-2" id="illtwo">
+                    <div class="col-12 btn-group">
+						<select class="form-control bg-info text-white"  id="convertedtemp">
+						  <option value="Celsius">Celsius</option>
+						  <option value="Fahreneit">Fahreneit</option>
+						</select>	
+				</div>
+                </div>
+            </div><br>
+			<div id="tempsdiv">
+				<div class="col-12 col-md-6 border ml-4 mt-2 mb-2 text-center p-2">22 ˚ fahrenhit = -5.56 ˚ Celsius</div>
+				<div class="col-12 col-md-6 border ml-4 mt-2 mb-2 text-center p-2">44 ˚ fahrenhit = 6.67 ˚ Celsius</div>
+				<div class="col-12 col-md-6 border ml-4 mt-2 mb-2 text-center p-2">66 ˚ fahrenhit = 18.89 ˚ Celsius</div>
+			</div>
+            
+			<div id="errorBox" class="border ml-4 mt-2 mb-2 p-2 bg-danger text-light"><h1>Change a Degree type</h1></div>
+        </div>
+		
+        <script>
+			
+			
+			function hideError() {
+    			document.getElementById("errorBox").style.opacity = "0";
+				$("#tempsdiv").show();
+				}
+			
+			function showError() {
+				let errorBox = document.getElementById('errorBox');
+				errorBox.style.opacity = 1;
+				$("#tempsdiv").hide();
+				
+			}
+			
+			
+			function conversion() {
+				
+				
+				hideError();
+				
+				
+				let start_type = document.getElementById("startemp").value;
+				let convert_type = document.getElementById("convertedtemp").value;
+
+				let start_temp = document.getElementById("numba").value;
+
+				if (start_type == "Celsius" && convert_type == "Fahreneit") {
+					let end_temp = start_temp * 9/5 + 32;
+					document.getElementById("out").value = end_temp.toFixed(2);
+				} else if (start_type == "Fahreneit" && convert_type == "Celsius") {
+					let end_temp = (start_temp - 32) * (5/9)
+					document.getElementById("out").value = end_temp.toFixed(2);
+				} else if (start_type == "Celsius" && convert_type == "Celsius"){
+					showError();
+				}
+				else if (start_type == "Fahreneit" && convert_type == "Fahreneit"){
+					showError();
+				}
+			}
+			
+			document.getElementById("numba").addEventListener("input", function(e) {
+				conversion();
+			 });
+			
+			document.getElementById("startemp").addEventListener("change", function(e) {
+				conversion();
+			});
+			
+			document.getElementById("convertedtemp").addEventListener("change", function(e) {
+				conversion();
+			});
+			
+			
+			$("#numba").on("input", function(){
+				console.log("Yay");
+				let inputVal = $(this).val();
+				let outputVal = $("#out").val();
+				let startemp = $("#startemp option:selected").text();
+				let convertedtemp = $("#convertedtemp option:selected").text();
+				let text = inputVal + ' ° ' + startemp + ' = '+ outputVal + '  ° ' + convertedtemp;
+				let newDiv = $("<div>", {
+				class: "col-12 col-md-6 border ml-4 mt-2 mb-2 text-center p-2",
+				text: text
+				});
+				$("#tempsdiv").append(newDiv);
+				console.log("bye");
+			});
+			
+			
+			
+			window.onload = function() {
+    		conversion();
+			};
+			
+			
+
+		</script>     
+	    
+		
+    </body>
+</html>
